@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import ClipboardItems from './ClipboardItems';
+import AddClipText from './AddClipText';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    clipItems: []
+  }
+  addClip = (clipItem) => {
+    let clipItems = [...this.state.clipItems, clipItem];
+    this.setState({
+      clipItems: clipItems
+    });
+  }
+  deleteClip = (timestamp) => {
+    let clipItems = this.state.clipItems.filter(item => {
+      return item.timestamp !== timestamp
+    });
+    this.setState({
+      clipItems: clipItems
+    })
+  }
+  render() {
+    return (
+      <div className="App">
+        <center>
+          <h1>Cloud Clipboard</h1>
+          <AddClipText addClipItem={this.addClip}/>
+        </center>
+        <ClipboardItems deleteClipItem={this.deleteClip} clipItems={this.state.clipItems} />
+      </div>
+    );
+  }
 }
 
 export default App;
